@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet"
+      href="assets/bootstrap/css/bootstrap-grid.min.css">
+    <link rel="stylesheet"
+      href="assets/bootstrap/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+      href="assets/jquery-confirm/jquery-confirm.min.css">
+  </head>
+  <style>
+    .amount{
+      height: 150px;
+      color: #fff;
+      background-color: #2297f4;
+    }
+  </style>
+  <body>
+
+    <div class="container" style="max-width:450px;">
+      <div class="card card-body amount">
+        <div class="row text-center">
+          <div class="col-12">
+            <h6>Saldo:</h6>
+          </div>
+          <div class="col-12">
+            <h2 id="amount-wallet">$ 9098.12</h2>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-dark" id="update-amount">actualizar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h6 class="card-title">Enviar Dinero</h6>
+        </div>
+        <div class="card-body">
+          <form id="form-send-money">
+            <div class="form-group">
+              <label for="my-input">Direccion de Wallet</label>
+              <input id="my-input" class="form-control dir" type="text" name="">
+            </div>
+            <div class="form-group">
+              <label for="my-input">Monto</label>
+              <input id="my-input" class="form-control number" type="text"
+                name="">
+            </div>
+            <div class="row text-center">
+              <div class="col"></div>
+              <div class="col"><button class="btn btn-primary">Enviar</button></div>
+              <div class="col"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/jquery/jquery-3.2.1.min.js"></script>
+    <script src="assets/bootstrap/js/popper.min.js"></script>
+    <script src="assets/bootstrap/js/tooltip.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/jquery-confirm/jquery-confirm.min.js"></script>
+    <script src="assets/sha256.min.js"></script>
+    <script src="assets/numberFormat/jquery.number.min.js"></script>
+    <script src="js/wallet.js"></script>
+  </body>
+</html>
