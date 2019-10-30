@@ -11,7 +11,7 @@ if (sessionStorage.getItem('dirWallet') == null) {
 }
 
 // dar formato de moneda al monto
-$('.number').number(true, 2)
+$('.number').number(true, 2, ',', '.')
 
 // envio de dinero
 $('#form-send-money').submit(function (e) {
@@ -25,10 +25,23 @@ $('#form-send-money').submit(function (e) {
     to: dir,
     amount: amount
   }
-  $.post(`http://${ipCoordinator}/resource`, { 'JSON': JSON.parse(json) }, (data, status) => {
+  $.post(`http://${ipCoordinator}/resource/`, { 'JSON': JSON.stringify(json) }, (data, status) => {
     // mostrado de datos
     if (data.status) {
       updateAmount()
+      $.notify({
+        message: 'Monto enviado'
+      }, {
+        type: 'success',
+        allow_dismiss: true,
+      })
+    }else{
+      $.notify({
+        message: data.message
+      }, {
+        type: 'danger',
+        allow_dismiss: true,
+      })
     }
   })
 })
@@ -47,9 +60,9 @@ function updateAmount() {
     operation: 'get_funding',
     account: sessionStorage.getItem('dirWallet')
   }
-  $.post(`http://${ipCoordinator}/resource`, { 'JSON': JSON.parse(json) }, (data, status) => {
+  $.post(`http://${ipCoordinator}/resource/`, { 'JSON': JSON.stringify(json) }, (data, status) => {
     if (data.status) {
-      $('#amount-wallet').html(`$ ${$.number(data.amount, 2)}`)
+      $('#amount-wallet').html(`$ ${$.number(data.amount, 2,',','.')}`)
     }
   })
 }

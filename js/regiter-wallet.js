@@ -1,5 +1,9 @@
 var flagRecuperate = false
 
+if (sessionStorage.getItem('dirWallet') != null) {
+  location.href = "wallet.html"
+}
+
 
 // verificar si existio antes alguna wallet
 if (localStorage.getItem('timestampkey') != null) {
@@ -42,7 +46,7 @@ $('#form-register').submit(function (e) {
       operation: 'get_funding',
       account: sha256(string)
     }
-    $.post(`http://${ipCoordinator}/resource`, { 'JSON': JSON.parse(json) }, (data, status) => {
+    $.post(`http://${ipCoordinator}/resource/`, { 'JSON': JSON.stringify(json) }, (data, status) => {
       if (data.status) {
         // se guarda la direccion de wallet en la session 
         sessionStorage.setItem('dirWallet', sha256(string))
@@ -63,15 +67,15 @@ $('#form-register').submit(function (e) {
     // se guarda la direccion de wallet en la session 
     sessionStorage.setItem('dirWallet', sha256(string))
     // Se manda el registro de la wallet
-    let json = {
-      'origin': 'wallet',
-      'operation': 'record_transaction',
-      'from': sha256(string),
-      'to': sha256(string),
-      'amount': 0
+    let req = {
+      origin: 'wallet',
+      operation: 'record_transaction',
+      from: sha256(string),
+      to: sha256(string),
+      amount: 0
     }
-    $.post(`http://${ipCoordinator}/resource`, {
-      'JSON': JSON.parse(json)
+    $.post(`http://${ipCoordinator}/resource/`, {
+      'JSON': JSON.stringify(req)
     }, (data, status) => {
       // si es exitoso Entra
       if (data.status) {
