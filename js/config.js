@@ -1,0 +1,1 @@
+let ipCoordinator = '192.168.1.4'

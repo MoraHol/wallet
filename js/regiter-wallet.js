@@ -25,7 +25,7 @@ if (localStorage.getItem('timestampkey') != null) {
   })
 }
 
-
+// cuando se hace el envio del formulario
 $('#form-register').submit(function (e) {
   e.preventDefault()
   let string = ""
@@ -37,11 +37,23 @@ $('#form-register').submit(function (e) {
   if (flagRecuperate) {
     // si es una recuperacion de cuenta se revisara si existe la wallet
     string += localStorage.getItem('timestampkey')
-    $.post('asas/asas/Asas', {
-      publicKey: sha256(string)
-    }, (data, status) => {
-      // si es exitoso Entra
-      location.href = 'wallet.html'
+    let json = {
+      origin: 'wallet',
+      operation: 'get_funding',
+      account: sha256(string)
+    }
+    $.post(`http://${ipCoordinator}/resource`, { 'JSON': JSON.parse(json) }, (data, status) => {
+      if (data.status) {
+        // se guarda la direccion de wallet en la session 
+        sessionStorage.setItem('dirWallet', sha256(string))
+        location.href = 'wallet.html'
+      } else {
+        $.notify({
+          message: 'Esta wallet no exsite <br> Por favor revisa las 12 palabras'
+        }, {
+          type: 'danger'
+        })
+      }
     })
   } else {
     let timestamp = Date.now()
@@ -51,12 +63,20 @@ $('#form-register').submit(function (e) {
     // se guarda la direccion de wallet en la session 
     sessionStorage.setItem('dirWallet', sha256(string))
     // Se manda el registro de la wallet
-    $.post('asas/asas/Asas', {
-      publicKey: sha256(string)
+    let json = {
+      'origin': 'wallet',
+      'operation': 'record_transaction',
+      'from': sha256(string),
+      'to': sha256(string),
+      'amount': 0
+    }
+    $.post(`http://${ipCoordinator}/resource`, {
+      'JSON': JSON.parse(json)
     }, (data, status) => {
       // si es exitoso Entra
-      location.href = 'wallet.html'
+      if (data.status) {
+        location.href = 'wallet.html'
+      }
     })
   }
-
 })
